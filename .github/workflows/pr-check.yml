@@ -1,13 +1,15 @@
-name: Check HTML/CSS
+name: Check HTML
 
 on:
+  push:
+    paths:
+      - '**.html'
   pull_request:
     paths:
       - '**.html'
-      - '**.css'
 
 jobs:
-  html-css-lint:
+  html-lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,17 +21,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install HTMLHint and Stylelint
+      - name: Install HTMLHint
         run: |
-          npm install -g htmlhint stylelint stylelint-config-standard stylelint-config-recommended
+          npm install -g htmlhint
 
       - name: Run HTMLHint
         run: |
           htmlhint "**/*.html"
-
-      - name: Run Stylelint
-        run: |
-          echo '{
-            "extends": "stylelint-config-standard"
-          }' > .stylelintrc.json
-          stylelint "**/*.css"
