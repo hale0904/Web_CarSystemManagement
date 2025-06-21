@@ -1,0 +1,35 @@
+name: Check HTML/CSS
+
+on:
+  pull_request:
+    paths:
+      - '**.html'
+      - '**.css'
+
+jobs:
+  html-css-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install HTMLHint and Stylelint
+        run: |
+          npm install -g htmlhint stylelint stylelint-config-standard stylelint-config-recommended
+
+      - name: Run HTMLHint
+        run: |
+          htmlhint "**/*.html"
+
+      - name: Run Stylelint
+        run: |
+          echo '{
+            "extends": "stylelint-config-standard"
+          }' > .stylelintrc.json
+          stylelint "**/*.css"
