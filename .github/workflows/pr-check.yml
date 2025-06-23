@@ -1,9 +1,6 @@
 name: Check HTML
 
 on:
-  push:
-    paths:
-      - '**.html'
   pull_request:
     paths:
       - '**.html'
